@@ -80,7 +80,7 @@ $(function() {
         beforeEach(function (done) {
             // Load loadFeed with id=0 as at the beginning
             var error = loadFeed(0, function () {
-                isOk = (error.statusText === 'OK')?true:false;
+                isOk = (error.statusText === 'OK');
                 done();
             });
         });
@@ -109,7 +109,7 @@ $(function() {
             var error = loadFeed(1, function () {
                 // Save the resulted html
                 feedFirstUpdate = $('.feed').html();
-                isOk = (error.statusText === 'OK')?true:false;
+                isOk = (error.statusText === 'OK');
                 done();
             });
         });
@@ -117,14 +117,12 @@ $(function() {
         /* In second order wait that loadFeed has completed its work */
         beforeEach(function (done) {
             // Load the loadFeed with id=1 different to starting value
-            if(isOk) {
-                var error = loadFeed(2, function () {
-                    // Save the resulted html
-                    feedSecondUpdate = $('.feed').html();
-                    isOk = (error.statusText === 'OK')?true:false;
-                });
-            }
-            done();
+            var error = loadFeed(2, function () {
+                // Save the resulted html
+                feedSecondUpdate = $('.feed').html();
+                isOk = (error.statusText === 'OK');
+                done();
+            });
         });
 
         /* This test checks that after a new feed is loaded by the
@@ -149,7 +147,7 @@ $(function() {
             var error = loadFeed(3, function () {
                 // Trigger the click event
                 $('.order-icon-items').trigger('click');
-                isOk = (error.statusText === 'OK')?true:false;
+                isOk = (error.statusText === 'OK');
                 done();
             });
         });
