@@ -1,25 +1,11 @@
-/* feedreader.js
- *
- * This is the spec file that Jasmine will read and contains
- * all of the tests that will be run against your application.
- */
-
-/* We're placing all of our tests within the $() function,
- * since some of these tests may require DOM elements. We want
- * to ensure they don't run until the DOM is ready.
- */
 $(function() {
     // Set Jasmine Timeout to handle even very slow network
     window.jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-    /* This is our first test suite - a test suite just contains
-    * a related set of tests. This suite is all about the RSS
-    * feeds definitions, the allFeeds variable in our application.
-    */
+    /* Test suite for RSS Feeds */
     describe('RSS Feeds', function() {
 
-        /* This is our first test - it tests to make sure that the
-         * allFeeds variable has been defined and that it is not
-         * empty.
+        /* Test to make sure that the allFeeds variable has been defined
+         * and that it is not empty.
          */
         it('are defined', function() {
             expect(allFeeds).toBeDefined();
@@ -28,7 +14,7 @@ $(function() {
 
         /* This test loops through each feed in allFeeds object
          * and checks that every element has defined (toBeDefined())
-         * an url and it's not empty (not.toEqual("")).
+         * an url and it's not empty (not.toEqual('')).
          */
         it('each feed URL is defined and not empty', function () {
             // For every allFeeds element
@@ -36,13 +22,13 @@ $(function() {
                 // Check the url to be defined
                 expect(element.url).toBeDefined();
                 // Check the url it's not empty
-                expect(element.url).not.toEqual("");
+                expect(element.url).not.toEqual('');
             });
         });
 
         /* This test loops through each feed in allFeeds object
          * and checks that for every elements a name is defined
-         * (toBeDefined()) and it's not empty (not.toEqual("")).
+         * (toBeDefined()) and it's not empty (not.toEqual('')).
          */
         it('each feed NAME is defined and not empty', function () {
             // For every allFeeds element
@@ -50,26 +36,20 @@ $(function() {
                 // Check the name to be defined
                 expect(element.name).toBeDefined();
                 // Check the name it's not empty
-                expect(element.name).not.toEqual("");
+                expect(element.name).not.toEqual('');
             });
         });
     });
 
     /* Test suite for the menu */
     describe('The menu', function() {
-        var element;
-
-        /* var element initialization */
-        beforeEach(function () {
-            element = $('body')[0];
-        });
 
         /* This test checks if at the beginning by default the
          * menu element is hidden checking if the class that makes
          * to hide the menu is present in the body element.
          */
         it('menu is hidden by default', function () {
-            expect(element.getAttribute('class') === 'menu-hidden').toBeTruthy();
+            expect($('body').hasClass('menu-hidden')).toBeTruthy();
         });
 
         /* This test verifies if the click on th menu icon to open and
@@ -84,11 +64,11 @@ $(function() {
             // Trigger the click event
             $('.menu-icon-link').trigger('click');
             // Expect menu open
-            expect(element.getAttribute('class') === 'menu-hidden').toBeFalsy();
+            expect($('body').hasClass('menu-hidden')).toBeFalsy();
             // Trigger again the click event
             $('.menu-icon-link').trigger('click');
             // Expect menu close
-            expect(element.getAttribute('class') === 'menu-hidden').toBeTruthy();
+            expect($('body').hasClass('menu-hidden')).toBeTruthy();
         });
     });
 
@@ -111,7 +91,7 @@ $(function() {
         it('when loadFeed completes a single .entry is within the .feed cotainer', function () {
             // Check that the length of .feed .entry is > 0
             if(isOk)
-                expect($('.feed').find('.entry').length).toBeGreaterThan(0);
+                expect($('.feed .entry').length).toBeGreaterThan(0);
             else
                 throw new Error("JQuery Call didn't send back any data");
         });
@@ -178,7 +158,7 @@ $(function() {
          * actual feed list is ordered lexicographically by the title.
          */
         it('when clicked the feed list get ordered by title', function () {
-            var oldValue = "";
+            var oldValue = '';
             if(isOk) {
                 // Loop through each article element comparing two elements at the time
                 $('article').each(function (index, value) {

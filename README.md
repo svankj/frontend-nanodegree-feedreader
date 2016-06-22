@@ -46,100 +46,92 @@ Tests performed
     First test for free, already done as example.
 2.	**Write a test that loops through each feed in the `allFeeds` object and ensures it has a URL defined and that the URL is not empty.**
     This test through the iteration `allFeeds.forEach` checks that every feed URL has defined:
-	```javascript
-    expect(element.url).toBeDefined();
-    ```
+
+			expect(element.url).toBeDefined();
+
     and it is not empty:
-    ```javascript
-    expect(element.url).not.toEqual("");
-    ```
+
+    		expect(element.url).not.toEqual("");
 3.	**Write a test that loops through each feed in the `allFeeds` object and ensures it has a name defined and that the name is not empty.**
 	This test through the iteration `allFeeds.forEach` checks that every feed name has defined:
-	```javascript
-    expect(element.name).toBeDefined();
-    ```
+
+    		expect(element.name).toBeDefined();
+
     and it is not empty:
-    ```javascript
-    expect(element.name).not.toEqual("");
-    ```
+
+			expect(element.name).not.toEqual("");
 4.	**Write a test that ensures the menu element is hidden by default.**
 	This test checks if at the beginning by default the menu element is hidden, in other words if the class `menu-hidden` has set in the `body`:
-	```javascript
-    expect(element.getAttribute('class') === 'menu-hidden').toBeTruthy();
-    ```
-5.	**Write a test that ensures the menu changes visibility when the menu icon is clicked. This test should have two expectations: does the menu display when clicked and does it hide when clicked again.** 
+
+            expect($('body').hasClass('menu-hidden')).toBeTruthy();
+5.	**Write a test that ensures the menu changes visibility when the menu icon is clicked. This test should have two expectations: does the menu display when clicked and does it hide when clicked again.**
 	This test sets as starting condition the menu hidden:
-	```javascript
-	 $('body').addClass('menu-hidden');
-     ```
+
+	 		$('body').addClass('menu-hidden');
+
      then trigger the click event:
-	```javascript
-	$('.menu-icon-link').trigger('click');
-    ```
+
+			$('.menu-icon-link').trigger('click');
+
     two times: one to test the menu showed:
-    ```javascript
-    expect(element.getAttribute('class') === 'menu-hidden').toBeFalsy();
-    ```
+
+    		expect($('body').hasClass('menu-hidden')).toBeFalsy();
+
     and the other the menu hidden:
-    ```javascript
-    expect(element.getAttribute('class') === 'menu-hidden').toBeTruthy();
-    ```
+
+    		expect($('body').hasClass('menu-hidden')).toBeTruthy();
 6.	**Write a test that ensures when the `loadFeed` function is called and completes its work, there is at least a single `.entry` element within the `.feed` container.**
 	This test calls the `loadFeed` function to get some elements and it waits for the loading end `done()`
-	```javascript
-    beforeEach(function (done) {
-    	var error = loadFeed(0, function () {
-    ```
+
+			beforeEach(function (done) {
+    			var error = loadFeed(0, function () {
+
     then it can verify if there are `entry` elements in the `.feed` container
-    ```javascript
-    expect($('.feed').find('.entry').length).toBeGreaterThan(0);
-    ```
+
+            expect($('.feed .entry').length).toBeGreaterThan(0);
 7.	**Write a test that ensures when a new feed is loaded by the `loadFeed` function that the content actually changes.**
 	This test starts loading a first set of `.entry` elements calling `loadFeed` function and waiting for job done, saving the HTML `.feed` container
-    ```javascript
-    beforeEach(function (done) {
-    	var error = loadFeed(1, function () {
-    		feedFirstUpdate = $('.feed').html();
-    ```
+
+    		beforeEach(function (done) {
+    			var error = loadFeed(1, function () {
+    				feedFirstUpdate = $('.feed').html();
+
 	then it calls again the `loadFeed` function waiting for its completion and saving the new HTML `.feed` container, the `beforeEach` will be called in the order they're defined.
-    ```javascript
-    beforeEach(function (done) {
-    	if(isOk) {
-    		var error = loadFeed(2, function () {
-    			feedSecondUpdate = $('.feed').html();
-    ```
+
+    		beforeEach(function (done) {
+    			if(isOk) {
+    				var error = loadFeed(2, function () {
+    					feedSecondUpdate = $('.feed').html();
+
     then it has to check if the two HTML saved are different
-    ```javascript
-    expect(feedFirstUpdate).not.toEqual(feedSecondUpdate);
-    ```
+
+    		expect(feedFirstUpdate).not.toEqual(feedSecondUpdate);
 8.	**My Additional Test.** I have implemented a new feature to test. Pressing the button ![icon](doc/icon.png) (the icon as the other is added using [Icomoon](https://icomoon.io/)) on the top left of the page, the feed list in the page gets ordered by title. The test just checks if the content of the page after pressing the button gets ordered as it should be. The test simply checks if every elements on the page is ordered by title two at the time.
 First of all it loads a new feed list calling the `loadFeed` function and then trigger the click event of order button
-	```javascript
-    beforeEach(function (done) {
-    	var error = loadFeed(3, function () {
-    		$('.order-icon-items').trigger('click');
-    		isOk = (error.statusText === 'OK')?true:false;
-    		done();
-    ```
+
+			beforeEach(function (done) {
+    			var error = loadFeed(3, function () {
+    				$('.order-icon-items').trigger('click');
+    					isOk = (error.statusText === 'OK')?true:false;
+    					done();
 Then looping through each article element comparing two elements at the time to verify the lexicographically order by the title
-	```javascript
-    $('article').each(function (index, value) {
-    	expect($(oldValue).find('h2').text().toLowerCase()).toBeLessThan($(value).find('h2').text().toLowerCase());
-    	oldValue = value;
-    });
-	```
+
+			$('article').each(function (index, value) {
+    			expect($(oldValue).find('h2').text().toLowerCase()).toBeLessThan($(value).find('h2').text().toLowerCase());
+                oldValue = value;
+    		});
 9.	**A note** on the errors if the case of ajax call failing, the `loadFeed` function returns the error
-	```javascript
-    var error = loadFeed(3, function () {
-    ```
+
+    		var error = loadFeed(3, function () {
+
     so in the test suite it is possible to handle this kind of error
-    ```javascript
-    isOk = (error.statusText === 'OK')?true:false;
-    ```
+
+    		isOk = (error.statusText === 'OK')?true:false;
+
     and to throw the error in the right place
-    ```javascript
-    throw new Error("JQuery Call didn't send back any data");
-    ```
+
+    		throw new Error("JQuery Call didn't send back any data");
+
 
 FeedReader Guide
 ===============================
